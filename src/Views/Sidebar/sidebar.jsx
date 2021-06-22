@@ -38,8 +38,6 @@ const Sidebar = () => {
     // eslint-disable-next-line
   }, [bugs]);
 
-  console.log(openMenu);
-
   return (
     <div className="bg-gray-200 static md:fixed left-0 border-r border-gray-200 shadow-lg">
       <div className="flex flex-col sm:flex-row sm:justify-around">

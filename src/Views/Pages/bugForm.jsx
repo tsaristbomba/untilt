@@ -45,8 +45,6 @@ const BugForm = (props) => {
   const handleEditSubmit = (e) => {
     e.preventDefault();
 
-    console.log("edition");
-
     dispatch(editBug(bugObj));
   };
 
