@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, Link } from "react-router-dom";
-import { signIn } from "../../Controllers/userController";
-import LoadingSpinner from "./loading";
+import {
+  // useHistory,
+  Link,
+} from "react-router-dom";
+import { signUp } from "../../Controllers/userController";
+import LoadingSpinner from "../Components/loading";
 import { generateAlert } from "../../Controllers/Redux/alertSlice";
 
-const Login = () => {
+const SignUp = () => {
   const dispatch = useDispatch();
-  const { auth } = useSelector((state) => state);
+  const { user } = useSelector((state) => state);
 
-  let history = useHistory();
+  //   let history = useHistory();
 
   const [formInput, setFormInput] = useState({
     name: "",
     password: "",
+    password2: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -28,26 +32,35 @@ const Login = () => {
     e.preventDefault();
 
     if (formInput.name !== "" || formInput.password !== "") {
-      dispatch(signIn(formInput));
-    }
+      if (formInput.password === formInput.password2) {
+        dispatch(signUp(formInput));
 
-    history.push("/");
+        // history.push("/");
+      } else {
+        dispatch(
+          generateAlert({ type: "danger", msg: "Passwords don't match" })
+        );
+      }
+    }
   };
 
   useEffect(() => {
-    if (auth.loading) {
+    if (user.loading) {
       setLoading(true);
     } else {
       setLoading(false);
     }
-  }, [auth.loading]);
+  }, [user.loading]);
 
   useEffect(() => {
-    if (auth.error !== null) {
-      dispatch(generateAlert({ type: "danger", msg: auth.error }));
+    if (user.error !== null) {
+      dispatch(generateAlert({ type: "danger", msg: user.error }));
+    }
+    if (user.success !== null) {
+      dispatch(generateAlert({ type: "success", msg: user.success }));
     }
     // eslint-disable-next-line
-  }, [auth.error]);
+  }, [user.error, user.success]);
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -58,8 +71,9 @@ const Login = () => {
         >
           {loading && <LoadingSpinner />}
           <h1 className="text-gray-800 text-2xl flex justify-center border-b-2 py-2 mb-4">
-            Login
+            Create Account
           </h1>
+          {/* <label htmlFor="name">Username:</label> */}
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring ring-1 ring-black ring-opacity-5 mb-2"
             type="text"
@@ -70,6 +84,7 @@ const Login = () => {
             required
             autoComplete="username"
           />
+          {/* <label htmlFor="password">Password:</label> */}
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring ring-1 ring-black ring-opacity-5 mb-2"
             type="password"
@@ -80,16 +95,27 @@ const Login = () => {
             required
             autoComplete="current-password"
           />
+          {/* <label htmlFor="password2">Repeat Password:</label> */}
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring ring-1 ring-black ring-opacity-5 mb-2"
+            type="password"
+            name="password2"
+            placeholder="Repeat password"
+            onChange={(e) => handleInputChange(e)}
+            value={formInput.password2}
+            required
+            autoComplete="current-password"
+          />
           <div className="flex justify-center mt-2">
             <button
               className={`hover:bg-gray-600 px-6 py-2 rounded font-medium inline-block text-white shadow-lg bg-gray-700 focus:bg-gray-200 ring-black ring-opacity-5 transition ease-in-out disabled:opacity-40`}
               type="submit"
             >
-              Login
+              Submit
             </button>
           </div>
-          <Link className="text-blue-500 text-sm hover:underline" to="/signup">
-            Create account
+          <Link className="text-blue-500 text-sm hover:underline" to="/">
+            Login
           </Link>
         </form>
         <p className="text-center text-gray-500 text-xs">
@@ -100,4 +126,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

@@ -1,18 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllUsers } from "../userController";
+import { getAllUsers, signUp } from "../userController";
 
 const slice = createSlice({
   name: "user",
   initialState: {
     users: null,
     loading: false,
-    msg: null,
+    error: null,
+    success: null,
   },
   reducers: {
     clearUsers: (state) => {
       state.users = null;
       state.loading = false;
-      state.msg = null;
+    },
+    clearUserAlert: (state) => {
+      state.success = null;
+      state.error = null;
     },
   },
   extraReducers: {
@@ -25,11 +29,22 @@ const slice = createSlice({
     },
     [getAllUsers.rejected]: (state) => {
       state.loading = false;
-      state.msg = "Failed loading users.";
+      state.error = "Failed loading users.";
+    },
+    [signUp.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.success = "Account created.";
+    },
+    [signUp.pending]: (state) => {
+      state.loading = true;
+    },
+    [signUp.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = "Failed creating account.";
     },
   },
 });
 
 export default slice.reducer;
 
-export const { clearUsers } = slice.actions;
+export const { clearUsers, clearUserAlert } = slice.actions;

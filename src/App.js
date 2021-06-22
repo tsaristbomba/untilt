@@ -13,6 +13,7 @@ import { loadUser } from "./Controllers/userController";
 import { loadBugs } from "./Controllers/bugController";
 import MyBugs from "./Views/Pages/myBugs";
 import Alert from "./Views/Components/alert";
+import createAccount from "./Views/Pages/createAccount";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -33,7 +34,12 @@ function App() {
       <Alert />
       <Router>
         {!auth.loggedIn ? (
-          <Login />
+          <>
+            <Switch>
+              <Route exact path="/signup" component={createAccount} />
+              <Route exact path="/" component={Login} />
+            </Switch>
+          </>
         ) : (
           <>
             <Sidebar />

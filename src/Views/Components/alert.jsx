@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAlert } from "../../Controllers/Redux/alertSlice";
 import { clearBugsMsg } from "../../Controllers/Redux/bugSlice";
+import { clearUserAlert } from "../../Controllers/Redux/userSlice";
 
 const Alert = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const Alert = () => {
     setTimeout(() => {
       show && dispatch(clearAlert());
       show && dispatch(clearBugsMsg());
+      show && dispatch(clearUserAlert());
     }, 3000);
     // eslint-disable-next-line
   }, [show]);
