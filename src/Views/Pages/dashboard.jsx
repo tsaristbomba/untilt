@@ -1,0 +1,69 @@
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadBugs } from "../../Controllers/bugController";
+import DashboardCard from "../Components/dashboardCard";
+import LoadingSpinner from "../Components/loading";
+
+const Dashboard = () => {
+  const [isLoading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const { bugs, loading } = useSelector((state) => state.bugs);
+
+  const filterBugs = (priority) => {
+    const filteredBugs =
+      bugs !== null ? bugs.filter((b) => b.priority === priority) : null;
+    const pendingBugs =
+      filteredBugs !== null &&
+      filteredBugs.filter((b) => b.status === "pending");
+    return pendingBugs;
+  };
+
+  let highBugs = 0;
+  let mediumBugs = 0;
+  let lowBugs = 0;
+  if (bugs !== undefined) {
+    highBugs = filterBugs(1).length;
+    mediumBugs = filterBugs(2).length;
+    lowBugs = filterBugs(3).length;
+  }
+
+  useEffect(() => {
+    dispatch(loadBugs());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (loading) {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [loading]);
+
+  return (
+    <div className="p-6 pt-10 max-w-screen-xl m-auto">
+      {isLoading && <LoadingSpinner />}
+      <h1 className="text-center text-3xl font-medium mb-6">Dashboard</h1>
+      <div className="flex flex-wrap gap-4 items-center justify-center col-span-2 mt-2">
+        {" "}
+        <DashboardCard
+          priority="1"
+          count={highBugs}
+          path={`${highBugs !== 0 ? "/view-bugs/high-priority" : "/"}`}
+        />
+        <DashboardCard
+          priority="2"
+          count={mediumBugs}
+          path={`${mediumBugs !== 0 ? "/view-bugs/medium-priority" : "/"}`}
+        />
+        <DashboardCard
+          priority="3"
+          count={lowBugs}
+          path={`${lowBugs !== 0 ? "/view-bugs/low-priority" : "/"}`}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
