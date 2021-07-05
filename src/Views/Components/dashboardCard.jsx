@@ -10,7 +10,7 @@ const DashboardCard = (props) => {
       to={props.path}
       onClick={props.handler}
       className={`${
-        props.count === 0 ? "border-transparent opacity-70" : "hover:shadow-lg"
+        props.count === 0 ? "border-transparent opacity-90" : "hover:shadow-lg"
       } bg-white flex flex-row items-center justify-between shadow-md transition ease-in-out rounded px-6 py-10 w-full cursor-pointer`}
       style={{ color: color }}
     >
