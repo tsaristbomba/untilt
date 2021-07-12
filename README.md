@@ -1,10 +1,10 @@
-# Untilt
+# ✳️Untilt
 
-## About
+## ✅About
 
 Untilt is an app that let you log bugs and assign them to a registered member. Once a bug is resolved, a member can mark it as such. Every member have a section of their assigned bugs and other with all bugs as well.
 
-### Functionalities
+### ✔️Functionalities
 
 - Auth
   - Login
@@ -14,24 +14,24 @@ Untilt is an app that let you log bugs and assign them to a registered member. O
 - Edit Bug
 - Mark as resolved
 
-## Install
+## ✅Install
 
 ```
 yarn install
 ```
 
-### Preview
+### ✔️Preview
 
 ```
 yarn start
 ```
 
-### Build
+### ✔️Build
 
 ```
 yarn build
 ```
 
-## Environment Variables
+## ✅Environment Variables
 
 - `REACT_APP_API_URL=<server url>`
