@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import Login from "./Views/Components/login";
 import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+import Login from "./Views/Components/login";
 import Sidebar from "./Views/Sidebar/sidebar";
 import ViewBugPage from "./Views/Pages/viewBugs";
 import BugForm from "./Views/Pages/bugForm";
@@ -19,7 +19,7 @@ if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
-function App() {
+function App(): JSX.Element {
   const { auth } = useSelector((state) => state);
 
   const dispatch = useDispatch();

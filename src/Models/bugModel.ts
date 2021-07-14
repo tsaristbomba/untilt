@@ -1,6 +1,18 @@
 export default bug;
 
-function bug(bug) {
+type BugTypes = {
+  name: string;
+  details: string;
+  steps: string;
+  priority: string;
+  assigned: string;
+  version: string;
+  time: string;
+  id: string;
+  status: string;
+};
+
+function bug(this: BugTypes, bug: BugTypes): void {
   if (bug !== undefined) {
     this.name = bug.name;
     this.details = bug.details;
