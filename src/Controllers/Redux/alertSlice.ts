@@ -1,4 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+type StateTypes = {
+  show: boolean;
+  type: string | null;
+  msg: string | null;
+};
+
+type ActionTypes = {
+  type: string;
+  msg: string;
+};
 
 const slice = createSlice({
   name: "alert",
@@ -8,12 +19,12 @@ const slice = createSlice({
     msg: null,
   },
   reducers: {
-    clearAlert: (state) => {
+    clearAlert: (state: StateTypes) => {
       state.show = false;
       state.type = null;
       state.msg = null;
     },
-    generateAlert: (state, action) => {
+    generateAlert: (state: StateTypes, action: PayloadAction<ActionTypes>) => {
       state.show = true;
       state.type = action.payload.type;
       state.msg = action.payload.msg;

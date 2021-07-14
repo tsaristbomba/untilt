@@ -1,22 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { NavLink as Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { GiHamburgerMenu } from "@react-icons/all-files/gi/GiHamburgerMenu";
 
+// Components
 import { signOut } from "../../Controllers/Redux/authSlice";
 import { clearUsers } from "../../Controllers/Redux/userSlice";
 import { clearBugs } from "../../Controllers/Redux/bugSlice";
 
-const Sidebar = () => {
+// Utils
+import { useAppDispatch, useAppSelector } from "../../Controllers/utils/hooks";
+
+// Types
+type BugTypes = {
+  // TODO
+};
+
+const Sidebar = (): JSX.Element => {
   const [myBugs, setMyBugs] = useState(0);
   const [openMenu, setOpenMenu] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   let history = useHistory();
 
-  const { auth } = useSelector((state) => state);
-  const { bugs } = useSelector((state) => state.bugs);
+  const { auth } = useAppSelector((state) => state);
+  const { bugs } = useAppSelector((state) => state.bugs);
 
   const SignOut = () => {
     dispatch(signOut());
@@ -29,10 +37,12 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    const filterMyBugs =
-      bugs !== null && bugs.filter((b) => b.assigned === auth.user);
-    const pendingBugs =
-      bugs !== null && filterMyBugs.filter((b) => b.status === "pending");
+    const filterMyBugs = bugs?.filter(
+      (b: BugTypes) => b.assigned === auth.user
+    );
+    const pendingBugs = filterMyBugs?.filter(
+      (b: BugTypes) => b.status === "pending"
+    );
 
     myBugs !== null && setMyBugs(pendingBugs.length);
     // eslint-disable-next-line

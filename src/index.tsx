@@ -25,6 +25,7 @@ const reducer = combineReducers({
 });
 
 export type RootState = ReturnType<typeof reducer>;
+export type AppDispatch = typeof store.dispatch;
 
 const customizedMiddleware = getDefaultMiddleware({
   serializableCheck: false,
