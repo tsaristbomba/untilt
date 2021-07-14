@@ -5,6 +5,19 @@ import setAuthToken from "./utils/setAuthToken";
 
 const url = process.env.REACT_APP_API_URL;
 
+// Types
+type LoadTypes = {
+  name: string;
+  details: string;
+  steps: string;
+  priority: number;
+  assigned: string;
+  version: string;
+  date?: string;
+  _id?: string;
+  status: string;
+};
+
 // Load bugs from api
 export const loadBugs = createAsyncThunk("bug/loadBugs", async () => {
   if (localStorage.token) {
@@ -13,9 +26,9 @@ export const loadBugs = createAsyncThunk("bug/loadBugs", async () => {
 
   const bugs = await axios.get(`${url}/bugs`);
 
-  let data = [];
+  let data: LoadTypes[] = [];
 
-  bugs.data.forEach((b) =>
+  bugs.data.forEach((b: any) =>
     data.push(
       new bugModel({
         name: b.name,
@@ -55,9 +68,9 @@ export const createBug = createAsyncThunk("bug/createBug", async (body) => {
 
     const bugs = await axios.get(`${url}/bugs`);
 
-    let data = [];
+    let data: LoadTypes[] = [];
 
-    bugs.data.forEach((b) =>
+    bugs.data.forEach((b: any) =>
       data.push(
         new bugModel({
           name: b.name,
@@ -95,9 +108,9 @@ export const editBug = createAsyncThunk("bug/editBug", async (body) => {
 
   const bugs = await axios.get(`${url}/bugs`);
 
-  let data = [];
+  let data: LoadTypes[] = [];
 
-  bugs.data.forEach((b) =>
+  bugs.data.forEach((b: any) =>
     data.push(
       new bugModel({
         name: b.name,
@@ -124,9 +137,9 @@ export const deleteBug = createAsyncThunk("bug/deleteBug", async (id) => {
 
   const res = await axios.delete(`${url}/bugs/${id}`);
 
-  let data = [];
+  let data: LoadTypes[] = [];
 
-  res.data.forEach((b) =>
+  res.data.forEach((b: any) =>
     data.push(
       new bugModel({
         name: b.name,

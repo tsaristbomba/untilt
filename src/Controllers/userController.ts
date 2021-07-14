@@ -6,46 +6,58 @@ import setAuthToken from "./utils/setAuthToken";
 
 const url = process.env.REACT_APP_API_URL;
 
-export const loadUser = createAsyncThunk("auth/loadUser", async () => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
+export const loadUser = createAsyncThunk(
+  "auth/loadUser",
+  async (): Promise<object> => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
+    const res = await axios.get(`${url}/user`);
+
+    return res;
   }
+);
 
-  const res = await axios.get(`${url}/user`);
+export const signIn = createAsyncThunk(
+  "auth/logUser",
+  async (body): Promise<object> => {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
 
-  return res;
-});
+    const res = await axios.post(`${url}/auth`, body, config);
 
-export const signIn = createAsyncThunk("auth/logUser", async (body) => {
-  const config = {
-    headers: {
-      "Content-type": "application/json",
-    },
-  };
-
-  const res = await axios.post(`${url}/auth`, body, config);
-
-  return res;
-});
-
-export const signUp = createAsyncThunk("auth/signUp", async (body) => {
-  const config = {
-    headers: {
-      "Content-type": "application/json",
-    },
-  };
-
-  const res = await axios.post(`${url}/auth/user`, body, config);
-
-  return res;
-});
-
-export const getAllUsers = createAsyncThunk("user/getAllUsers", async () => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
+    return res;
   }
+);
 
-  const res = await axios.get(`${url}/user/all`);
+export const signUp = createAsyncThunk(
+  "auth/signUp",
+  async (body): Promise<object> => {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
 
-  return res;
-});
+    const res = await axios.post(`${url}/auth/user`, body, config);
+
+    return res;
+  }
+);
+
+export const getAllUsers = createAsyncThunk(
+  "user/getAllUsers",
+  async (): Promise<object> => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
+    const res = await axios.get(`${url}/user/all`);
+
+    return res;
+  }
+);

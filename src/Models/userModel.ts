@@ -22,3 +22,19 @@ function user(this: ThisUserTypes, user: UserTypes) {
     this.role = user.role;
   }
 }
+
+// const userModel = class UserTypes {
+//   name: string;
+//   id: string;
+//   password: string;
+//   role: string;
+
+//   constructor(user: UserTypes) {
+//     this.id = user._id;
+//     this.name = user.name;
+//     this.password = user.password;
+//     this.role = user.role;
+//   }
+// };
+
+// export default userModel;
