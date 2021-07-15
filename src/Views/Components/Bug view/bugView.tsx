@@ -3,18 +3,41 @@ import { AiOutlineCheck } from "@react-icons/all-files/ai/AiOutlineCheck";
 import ViewSection from "./bugViewSection";
 import BugModel from "../../../Models/bugModel";
 import PriorityController from "../../../Controllers/priorityController";
-import { useDispatch, useSelector } from "react-redux";
 import { deleteBug, editBug } from "../../../Controllers/bugController";
 import EditPanel from "../editPanel";
 import BugForm from "../../Pages/bugForm";
 import { generateAlert } from "../../../Controllers/Redux/alertSlice";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../Controllers/utils/hooks";
 
-const BugView = (props) => {
-  const dispatch = useDispatch();
+// Types
+type BugViewTypes = {
+  loading?: boolean;
+  bug: {
+    name: string;
+    details: string;
+    steps: string;
+    priority: number;
+    assigned: string;
+    version: string;
+    time: string;
+    id: string;
+    status: string;
+  };
+  error?: string | null;
+  success?: string | null;
+  isFiltered?: boolean;
+  clicked: (name: string, isDisplayed?: boolean) => void;
+};
+
+const BugView: React.FC<BugViewTypes> = (props): JSX.Element => {
+  const dispatch = useAppDispatch();
   const bug = new BugModel(props.bug);
 
   const { color } = PriorityController(bug.priority);
-  const { bugs } = useSelector((state) => state);
+  const { bugs } = useAppSelector((state) => state);
 
   const [displayEdit, setDisplayEdit] = useState(false);
   const handleEdit = () => {
@@ -28,7 +51,7 @@ const BugView = (props) => {
     if (bugs.error !== null)
       dispatch(generateAlert({ type: "danger", msg: "Error" }));
 
-    props.clicked();
+    props.clicked("");
   };
 
   const handleMarkComplete = () => {
@@ -50,7 +73,7 @@ const BugView = (props) => {
     if (bugs.error !== null)
       dispatch(generateAlert({ type: "danger", msg: "Error" }));
 
-    props.clicked();
+    props.clicked("");
   };
 
   return (
@@ -59,7 +82,7 @@ const BugView = (props) => {
         <EditPanel
           handleEdit={handleEdit}
           handleDelete={handleDelete}
-          handleClose={props.clicked}
+          handleClose={() => props.clicked("")}
           disabled={bug.status === "fulfilled"}
         />
         <div className="font-mono">

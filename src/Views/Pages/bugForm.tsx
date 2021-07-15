@@ -1,14 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
-import { useDispatch, useSelector } from "react-redux";
 import { createBug, editBug } from "../../Controllers/bugController";
 import { getAllUsers } from "../../Controllers/userController";
 import LoadingSpinner from "../Components/loading";
 import { generateAlert } from "../../Controllers/Redux/alertSlice";
 
-const BugForm = (props) => {
-  const [bugObj, setBugObj] = useState({
+// Utils
+import { useAppDispatch, useAppSelector } from "../../Controllers/utils/hooks";
+
+// Types
+type BugObjectTypes = {
+  name: string;
+  details: string;
+  steps: string;
+  priority: number | string;
+  status: string;
+  version: string;
+  assigned: string;
+  time: string;
+  id: string;
+};
+type BugFormTypes = {
+  title: string;
+  edit: boolean;
+  close: () => void;
+  bug: BugObjectTypes;
+};
+
+const BugForm: React.FC<BugFormTypes> = (props): JSX.Element => {
+  const [bugObj, setBugObj] = useState<BugObjectTypes>({
     name: props.bug !== undefined ? props.bug.name : "",
     details: props.bug !== undefined ? props.bug.details : "",
     steps: props.bug !== undefined ? props.bug.steps : "",
@@ -23,18 +44,22 @@ const BugForm = (props) => {
 
   let history = useHistory();
 
-  const dispatch = useDispatch();
-  const { users, loading } = useSelector((state) => state.user);
-  const { error, success } = useSelector((state) => state.bugs);
+  const dispatch = useAppDispatch();
+  const { users, loading } = useAppSelector((state) => state.user);
+  const { error, success } = useAppSelector((state) => state.bugs);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ): void => {
     setBugObj({
       ...bugObj,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
     dispatch(createBug(bugObj));
@@ -42,17 +67,17 @@ const BugForm = (props) => {
     history.push("/");
   };
 
-  const handleEditSubmit = (e) => {
+  const handleEditSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
     dispatch(editBug(bugObj));
   };
 
-  useEffect(() => {
+  useEffect((): void => {
     dispatch(getAllUsers());
   }, [dispatch]);
 
-  useEffect(() => {
+  useEffect((): void => {
     if (loading) {
       setLoading(true);
     } else {
@@ -60,7 +85,7 @@ const BugForm = (props) => {
     }
   }, [loading]);
 
-  useEffect(() => {
+  useEffect((): void => {
     if (error !== null) {
       dispatch(generateAlert({ type: "danger", msg: error }));
     }
@@ -134,7 +159,7 @@ const BugForm = (props) => {
           onChange={(e) => handleChange(e)}
           value={bugObj.priority}
         >
-          <option value="" disabled defaultValue>
+          <option value="" disabled defaultValue="">
             Select
           </option>
           <option value={1}>High</option>
@@ -149,15 +174,14 @@ const BugForm = (props) => {
           onChange={(e) => handleChange(e)}
           value={bugObj.assigned}
         >
-          <option value="" disabled defaultValue>
+          <option value="" disabled defaultValue="">
             Select
           </option>
-          {users !== null &&
-            users.data.map((u, key) => (
-              <option key={key} value={u.name}>
-                {u.name}
-              </option>
-            ))}
+          {users.data.map((u: { name: string }, key) => (
+            <option key={key} value={u.name}>
+              {u.name}
+            </option>
+          ))}
         </select>
         <label htmlFor="">Application Version: </label>
         <input

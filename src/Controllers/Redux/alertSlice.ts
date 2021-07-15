@@ -8,7 +8,7 @@ type StateTypes = {
 
 type ActionTypes = {
   type: string;
-  msg: string;
+  msg: string | null;
 };
 
 const slice = createSlice({

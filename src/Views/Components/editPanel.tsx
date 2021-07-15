@@ -3,7 +3,15 @@ import { AiFillEdit } from "@react-icons/all-files/ai/AiFillEdit";
 import { IoMdTrash } from "@react-icons/all-files/io/IoMdTrash";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 
-const Edit = (props) => {
+// Types
+type EditPanelTypes = {
+  handleEdit: () => void;
+  handleDelete: () => void;
+  handleClose: () => void;
+  disabled: boolean;
+};
+
+const Edit: React.FC<EditPanelTypes> = (props) => {
   return (
     <div className="flex flex-row justify-between items-center -m-5 mb-2 md:right-24">
       <div>

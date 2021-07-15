@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { loadUser, signIn } from "../userController";
 
+// Types
 type StateTypes = {
   loggedIn?: boolean;
   admin?: boolean;
@@ -26,7 +27,7 @@ type LoadPayload = {
   };
 };
 
-const slice: StateTypes = createSlice({
+const slice = createSlice({
   name: "auth",
   initialState: {
     token: localStorage.getItem("token"),

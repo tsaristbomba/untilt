@@ -1,30 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { signIn } from "../../Controllers/userController";
 import LoadingSpinner from "./loading";
 import { generateAlert } from "../../Controllers/Redux/alertSlice";
 
-const Login = () => {
-  const dispatch = useDispatch();
-  const { auth } = useSelector((state) => state);
+// Utils
+import { useAppDispatch, useAppSelector } from "../../Controllers/utils/hooks";
+
+// Types
+type FormTypes = {
+  name: string;
+  password: string;
+};
+
+const Login = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((state) => state);
 
   let history = useHistory();
 
-  const [formInput, setFormInput] = useState({
+  const [formInput, setFormInput] = useState<FormTypes>({
     name: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setFormInput({
       ...formInput,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
     if (formInput.name !== "" || formInput.password !== "") {

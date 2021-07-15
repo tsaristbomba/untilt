@@ -12,12 +12,31 @@ import { useAppDispatch, useAppSelector } from "../../Controllers/utils/hooks";
 
 // Types
 type BugTypes = {
-  // TODO
+  name: string;
+  details: string;
+  steps: string;
+  priority: number;
+  assigned: string;
+  version: string;
+  date?: string;
+  _id?: string;
+  status: string;
+};
+type AuthTypes = {
+  name: string;
+  details: string;
+  steps: string;
+  priority: number;
+  assigned: string;
+  version: string;
+  date?: string;
+  _id?: string;
+  status: string;
 };
 
 const Sidebar = (): JSX.Element => {
-  const [myBugs, setMyBugs] = useState(0);
-  const [openMenu, setOpenMenu] = useState(false);
+  const [myBugs, setMyBugs] = useState<number>(0);
+  const [openMenu, setOpenMenu] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
 
@@ -37,8 +56,8 @@ const Sidebar = (): JSX.Element => {
   };
 
   useEffect(() => {
-    const filterMyBugs = bugs?.filter(
-      (b: BugTypes) => b.assigned === auth.user
+    const filterMyBugs = bugs.filter(
+      (b: AuthTypes) => b.assigned === auth.user
     );
     const pendingBugs = filterMyBugs?.filter(
       (b: BugTypes) => b.status === "pending"
@@ -118,14 +137,12 @@ const Sidebar = (): JSX.Element => {
                 activeClassName="bg-gray-200 border-gray-700"
                 className="flex w-full justify-center md:justify-start border-b-4 md:border-none items-center mt-5 py-2 px-8  md:border-r-4 border-white transition ease-in-out  hover:bg-gray-200  hover:border-gray-700"
                 to="/create-bug"
-                disabled={!auth.admin}
                 onClick={() => setOpenMenu(false)}
               >
                 <span className="mx-4 font-medium">Create Bug</span>
               </Link>
               <button
                 className="flex items-center justify-center md:justify-start text-center w-full mt-5 py-2 px-8 md:border-r-4 border-white text-red-700 transition ease-in-out  hover:bg-red-200 hover:border-red-700"
-                to="/view-bugs"
                 onClick={() => SignOut()}
               >
                 <span className="mx-4 font-medium">Logout</span>

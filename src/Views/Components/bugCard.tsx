@@ -1,7 +1,22 @@
 import React from "react";
 import PriorityController from "../../Controllers/priorityController";
 
-const BugCard = ({ name, priority, version, status, clicked }) => {
+// Types
+type PropTypes = {
+  name: string;
+  priority: number;
+  version: string;
+  status: string;
+  clicked: (name: string) => void;
+};
+
+const BugCard: React.FC<PropTypes> = ({
+  name,
+  priority,
+  version,
+  status,
+  clicked,
+}): JSX.Element => {
   const handleClick = () => {
     clicked(name);
   };

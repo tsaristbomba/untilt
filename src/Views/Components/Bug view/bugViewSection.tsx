@@ -1,7 +1,13 @@
 import React from "react";
 import handlePriority from "../../../Controllers/priorityController";
 
-const BugViewSection = ({ title, info }) => {
+// Types
+type PropTypes = {
+  title: string;
+  info: string | number;
+};
+
+const BugViewSection: React.FC<PropTypes> = ({ title, info }): JSX.Element => {
   const priority = typeof info === "number" ? handlePriority(info).level : info;
 
   return (

@@ -4,7 +4,7 @@ import { loadBugs, createBug, deleteBug, editBug } from "../bugController";
 // Types
 type StateTypes = {
   loading: boolean;
-  bugs: object | null;
+  bugs: object;
   error: string | null;
   success: string | null;
   isFiltered: boolean;
@@ -14,14 +14,14 @@ const slice = createSlice({
   name: "bug",
   initialState: {
     loading: false,
-    bugs: null,
+    bugs: [],
     error: null,
     success: null,
     isFiltered: false,
   },
   reducers: {
     clearBugs: (state: StateTypes) => {
-      state.bugs = null;
+      state.bugs = [];
       state.loading = false;
       state.error = null;
     },
@@ -44,11 +44,11 @@ const slice = createSlice({
       )
       .addCase(loadBugs.pending, (state: StateTypes) => {
         state.loading = true;
-        state.bugs = null;
+        state.bugs = [];
       })
       .addCase(loadBugs.rejected, (state: StateTypes) => {
         state.loading = false;
-        state.bugs = null;
+        state.bugs = [];
       })
       .addCase(
         editBug.fulfilled,
