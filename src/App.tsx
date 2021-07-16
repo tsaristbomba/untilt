@@ -17,6 +17,7 @@ import { loadBugs } from "./Controllers/bugController";
 import MyBugs from "./Views/Pages/myBugs";
 import Alert from "./Views/Components/alert";
 import createAccount from "./Views/Pages/createAccount";
+import { generateAlert } from "./Controllers/Redux/alertSlice";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -24,6 +25,7 @@ if (localStorage.token) {
 
 function App(): JSX.Element {
   const { auth } = useAppSelector((state) => state);
+  const { bugs } = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
 
@@ -31,6 +33,19 @@ function App(): JSX.Element {
     dispatch(loadUser());
     dispatch(loadBugs());
   }, [dispatch]);
+
+  React.useEffect((): void => {
+    if (bugs.error !== null) {
+      console.log("hey");
+      dispatch(generateAlert({ type: "danger", msg: bugs.error }));
+    }
+    if (bugs.success !== null) {
+      console.log("hey");
+
+      dispatch(generateAlert({ type: "success", msg: bugs.success }));
+    }
+    //eslint-disable-next-line
+  }, [bugs.error, bugs.success]);
 
   return (
     <div className="text-gray-800 bg-gray-100">

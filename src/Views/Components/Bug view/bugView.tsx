@@ -6,11 +6,7 @@ import PriorityController from "../../../Controllers/priorityController";
 import { deleteBug, editBug } from "../../../Controllers/bugController";
 import EditPanel from "../editPanel";
 import BugForm from "../../Pages/bugForm";
-import { generateAlert } from "../../../Controllers/Redux/alertSlice";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../Controllers/utils/hooks";
+import { useAppDispatch } from "../../../Controllers/utils/hooks";
 
 // Types
 type BugViewTypes = {
@@ -37,19 +33,14 @@ const BugView: React.FC<BugViewTypes> = (props): JSX.Element => {
   const bug = new BugModel(props.bug);
 
   const { color } = PriorityController(bug.priority);
-  const { bugs } = useAppSelector((state) => state);
 
   const [displayEdit, setDisplayEdit] = useState(false);
   const handleEdit = () => {
     setDisplayEdit(!displayEdit);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (): void => {
     dispatch(deleteBug(bug.id));
-    dispatch(generateAlert({ type: "success", msg: bugs.success }));
-
-    if (bugs.error !== null)
-      dispatch(generateAlert({ type: "danger", msg: "Error" }));
 
     props.clicked("");
   };
@@ -67,11 +58,6 @@ const BugView: React.FC<BugViewTypes> = (props): JSX.Element => {
     };
 
     dispatch(editBug(newBugStatus));
-
-    dispatch(generateAlert({ type: "success", msg: bugs.success }));
-
-    if (bugs.error !== null)
-      dispatch(generateAlert({ type: "danger", msg: "Error" }));
 
     props.clicked("");
   };

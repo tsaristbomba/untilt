@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { useHistory } from "react-router-dom";
 import { IoClose } from "@react-icons/all-files/io5/IoClose";
 import { createBug, editBug } from "../../Controllers/bugController";
 import { getAllUsers } from "../../Controllers/userController";
@@ -42,8 +41,6 @@ const BugForm: React.FC<BugFormTypes> = (props): JSX.Element => {
   });
   const [isLoading, setLoading] = useState<boolean>(false);
 
-  // let history = useHistory();
-
   const dispatch = useAppDispatch();
   const { users, loading } = useAppSelector((state) => state.user);
   const { error, success } = useAppSelector((state) => state.bugs);
@@ -63,15 +60,14 @@ const BugForm: React.FC<BugFormTypes> = (props): JSX.Element => {
     e.preventDefault();
 
     dispatch(createBug(bugObj));
-
-    // history.push("/");
-    props.close !== undefined && props.close();
   };
 
   const handleEditSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
     dispatch(editBug(bugObj));
+
+    props.close !== undefined && props.close();
   };
 
   useEffect((): void => {
@@ -93,7 +89,7 @@ const BugForm: React.FC<BugFormTypes> = (props): JSX.Element => {
     if (success !== null) {
       dispatch(generateAlert({ type: "success", msg: success }));
     }
-    // eslint-disable-next-line
+    //eslint-disable-next-line
   }, [error, success]);
 
   return (
