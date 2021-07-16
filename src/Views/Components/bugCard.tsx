@@ -27,7 +27,7 @@ const BugCard: React.FC<PropTypes> = ({
     <div
       className={`${
         status === "fulfilled"
-          ? "border-transparent opacity-80 hover:opacity-100"
+          ? "border-transparent opacity-80 hover:opacity-100 line-through"
           : "border-gray-700"
       } border-0 border-r-4  bg-white flex flex-col sm:flex-row items-center justify-between shadow-md hover:shadow-lg transition ease-in-out rounded py-5 px-6 w-full cursor-pointer`}
       onClick={handleClick}

@@ -15,10 +15,7 @@ const Dashboard: React.FC = (): JSX.Element => {
       bugs !== null
         ? bugs.filter((b: { priority: number }) => b.priority === priority)
         : [];
-    const pendingBugs = filteredBugs.filter(
-      (b: { status: string }) => b.status === "pending"
-    );
-    return pendingBugs;
+    return filteredBugs;
   };
 
   let highBugs: number = 0;

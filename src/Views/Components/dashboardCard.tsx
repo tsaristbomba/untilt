@@ -16,9 +16,7 @@ const DashboardCard: React.FC<DashboardCardTypes> = (props) => {
     <Link
       to={props.path}
       onClick={props.handler}
-      className={`${
-        props.count === 0 ? "border-transparent opacity-90" : "hover:shadow-lg"
-      } bg-white flex flex-row items-center justify-between shadow-md transition ease-in-out rounded px-6 py-10 w-full cursor-pointer`}
+      className={`bg-white flex flex-row hover:shadow-lg items-center justify-between shadow-md transition ease-in-out rounded px-6 py-10 w-full cursor-pointer`}
       style={{ color: color }}
     >
       <h2 className="text-3xl font-bold font-mono">{level} Priority Bugs</h2>

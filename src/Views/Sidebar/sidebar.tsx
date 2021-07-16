@@ -11,17 +11,6 @@ import { clearBugs } from "../../Controllers/Redux/bugSlice";
 import { useAppDispatch, useAppSelector } from "../../Controllers/utils/hooks";
 
 // Types
-type BugTypes = {
-  name: string;
-  details: string;
-  steps: string;
-  priority: number;
-  assigned: string;
-  version: string;
-  date?: string;
-  _id?: string;
-  status: string;
-};
 type AuthTypes = {
   name: string;
   details: string;
@@ -34,7 +23,7 @@ type AuthTypes = {
   status: string;
 };
 
-const Sidebar = (): JSX.Element => {
+const Sidebar: React.FC = (): JSX.Element => {
   const [myBugs, setMyBugs] = useState<number>(0);
   const [openMenu, setOpenMenu] = useState<boolean>(false);
 
@@ -59,11 +48,8 @@ const Sidebar = (): JSX.Element => {
     const filterMyBugs = bugs.filter(
       (b: AuthTypes) => b.assigned === auth.user
     );
-    const pendingBugs = filterMyBugs?.filter(
-      (b: BugTypes) => b.status === "pending"
-    );
 
-    myBugs !== null && setMyBugs(pendingBugs.length);
+    myBugs !== null && setMyBugs(filterMyBugs.length);
     // eslint-disable-next-line
   }, [bugs]);
 

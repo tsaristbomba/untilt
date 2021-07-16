@@ -18,8 +18,9 @@ const MyBugs: React.FC = () => {
     name: "",
     isDisplayed: false,
   });
-  const [filteredArray, setFilteredArray] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const [filteredArray, setFilteredArray] = useState<any[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [allBugsCount, setCount] = useState<number>(0);
 
   const dispatch = useAppDispatch();
   const { bugs, loading, isFiltered } = useAppSelector((state) => state.bugs);
@@ -65,12 +66,23 @@ const MyBugs: React.FC = () => {
     }
   }, [loading]);
 
+  useEffect(() => {
+    setCount(filteredArray.length);
+  }, [filteredArray]);
+
   return (
     <div className="p-6 pt-10 max-w-screen-xl m-auto">
       {isLoading && <LoadingSpinner />}
-      <h1 className="text-center text-3xl font-medium">All Bugs</h1>
+      <h1 className="text-center text-3xl font-medium mb-4">All My Bugs</h1>
       <div className="flex flex-row items-center mb-4">
-        Show Unresolved bugs:{" "}
+        Show Unresolved bugs
+        <span
+          className="font-bold text-white text-xs rounded-full bg-gray-700 flex items-center justify-center font-mono mr-1 ml-1"
+          style={{ height: "20px", width: "20px" }}
+        >
+          {allBugsCount}
+        </span>
+        :{" "}
         <button
           className="flex flex-row px-2 py-1 rounded ring-black ring-opacity-5 transition ease-in-out disabled:opacity-20"
           onClick={handleFilterBugs}
