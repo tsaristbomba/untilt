@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { loadBugs } from "../../Controllers/bugController";
+import { useAppDispatch, useAppSelector } from "../../Controllers/utils/hooks";
 import DashboardCard from "../Components/dashboardCard";
 import LoadingSpinner from "../Components/loading";
 
-const Dashboard = () => {
-  const [isLoading, setLoading] = useState(false);
+const Dashboard: React.FC = (): JSX.Element => {
+  const [isLoading, setLoading] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
-  const { bugs, loading } = useSelector((state) => state.bugs);
+  const dispatch = useAppDispatch();
+  const { bugs, loading } = useAppSelector((state) => state.bugs);
 
-  const filterBugs = (priority) => {
+  const filterBugs = (priority: number) => {
     const filteredBugs =
-      bugs !== null ? bugs.filter((b) => b.priority === priority) : null;
-    const pendingBugs =
-      filteredBugs !== null &&
-      filteredBugs.filter((b) => b.status === "pending");
+      bugs !== null
+        ? bugs.filter((b: { priority: number }) => b.priority === priority)
+        : [];
+    const pendingBugs = filteredBugs.filter(
+      (b: { status: string }) => b.status === "pending"
+    );
     return pendingBugs;
   };
 
-  let highBugs = 0;
-  let mediumBugs = 0;
-  let lowBugs = 0;
+  let highBugs: number = 0;
+  let mediumBugs: number = 0;
+  let lowBugs: number = 0;
   if (bugs !== undefined) {
     highBugs = filterBugs(1).length;
     mediumBugs = filterBugs(2).length;
@@ -47,17 +49,17 @@ const Dashboard = () => {
       <div className="flex flex-wrap gap-4 items-center justify-center col-span-2 mt-2">
         {" "}
         <DashboardCard
-          priority="1"
+          priority={1}
           count={highBugs}
           path={`${highBugs !== 0 ? "/view-bugs/high-priority" : "/"}`}
         />
         <DashboardCard
-          priority="2"
+          priority={2}
           count={mediumBugs}
           path={`${mediumBugs !== 0 ? "/view-bugs/medium-priority" : "/"}`}
         />
         <DashboardCard
-          priority="3"
+          priority={3}
           count={lowBugs}
           path={`${lowBugs !== 0 ? "/view-bugs/low-priority" : "/"}`}
         />

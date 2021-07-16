@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { clearAlert } from "../../Controllers/Redux/alertSlice";
 import { clearBugsMsg } from "../../Controllers/Redux/bugSlice";
 import { clearUserAlert } from "../../Controllers/Redux/userSlice";
+import { useAppDispatch, useAppSelector } from "../../Controllers/utils/hooks";
 
-const Alert = () => {
-  const dispatch = useDispatch();
+const Alert: React.FC = () => {
+  const dispatch = useAppDispatch();
 
-  const { type, msg, show } = useSelector((state) => state.alert);
-  const { success, error } = useSelector((state) => state.bugs);
+  const { type, msg, show } = useAppSelector((state) => state.alert);
+  const { success, error } = useAppSelector((state) => state.bugs);
 
   useEffect(() => {
     setTimeout(() => {

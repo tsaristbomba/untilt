@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   // useHistory,
   Link,
@@ -7,28 +6,40 @@ import {
 import { signUp } from "../../Controllers/userController";
 import LoadingSpinner from "../Components/loading";
 import { generateAlert } from "../../Controllers/Redux/alertSlice";
+import { useAppDispatch, useAppSelector } from "../../Controllers/utils/hooks";
 
-const SignUp = () => {
-  const dispatch = useDispatch();
-  const { user } = useSelector((state) => state);
+// Types
+type CreateAccountFormTypes = {
+  name: string;
+  password: string;
+  password2: string;
+};
+
+const SignUp: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state);
 
   //   let history = useHistory();
 
-  const [formInput, setFormInput] = useState({
+  const [formInput, setFormInput] = useState<CreateAccountFormTypes>({
     name: "",
     password: "",
     password2: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     setFormInput({
       ...formInput,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (formInput.name !== "" || formInput.password !== "") {

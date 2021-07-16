@@ -2,7 +2,14 @@ import React from "react";
 import Priority from "../../Controllers/priorityController";
 import { Link } from "react-router-dom";
 
-const DashboardCard = (props) => {
+type DashboardCardTypes = {
+  priority: number;
+  path: string;
+  handler?: () => void;
+  count: number;
+};
+
+const DashboardCard: React.FC<DashboardCardTypes> = (props) => {
   const { level, color } = Priority(props.priority);
 
   return (

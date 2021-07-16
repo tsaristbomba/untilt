@@ -1,46 +1,59 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { BsToggleOff } from "@react-icons/all-files/bs/BsToggleOff";
 import { BsToggleOn } from "@react-icons/all-files/bs/BsToggleOn";
 import { filter } from "../../Controllers/Redux/bugSlice";
 import BugView from "../Components/Bug view/bugView";
 import LoadingSpinner from "../Components/loading";
 import BugCard from "../Components/bugCard";
+import { useAppDispatch, useAppSelector } from "../../Controllers/utils/hooks";
 
-const MyBugs = () => {
-  const [displayBug, setDisplayBug] = useState({
+// Types
+type MyBugsFormTypes = {
+  name: string;
+  isDisplayed: boolean;
+};
+
+const MyBugs: React.FC = () => {
+  const [displayBug, setDisplayBug] = useState<MyBugsFormTypes>({
     name: "",
     isDisplayed: false,
   });
   const [filteredArray, setFilteredArray] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
-  const dispatch = useDispatch();
-  const { bugs, loading, isFiltered } = useSelector((state) => state.bugs);
-  const { auth } = useSelector((state) => state);
+  const dispatch = useAppDispatch();
+  const { bugs, loading, isFiltered } = useAppSelector((state) => state.bugs);
+  const { auth } = useAppSelector((state) => state);
 
-  const handleName = (name) => {
+  const handleName = (
+    name: string,
+    isDisplayed: boolean = !displayBug.isDisplayed
+  ) => {
     setDisplayBug({
-      isDisplayed: !displayBug.isDisplayed,
+      isDisplayed: isDisplayed,
       name: name,
     });
   };
 
-  const myBugs = bugs !== null && bugs.filter((b) => b.assigned === auth.user);
+  const myBugs = bugs.filter(
+    (b: { assigned: string }) => b.assigned === auth.user
+  );
 
   const handleFilterBugs = () => {
-    const pendingBugs =
-      bugs !== null && myBugs.filter((b) => b.status === "pending");
+    const pendingBugs = myBugs.filter(
+      (b: { status: string }) => b.status === "pending"
+    );
 
-    bugs !== null && setFilteredArray(pendingBugs);
+    setFilteredArray(pendingBugs);
     dispatch(filter());
   };
 
   useEffect(() => {
-    const pendingBugs =
-      bugs !== null && myBugs.filter((b) => b.status === "pending");
+    const pendingBugs = myBugs.filter(
+      (b: { status: string }) => b.status === "pending"
+    );
 
-    bugs !== null && setFilteredArray(pendingBugs);
+    setFilteredArray(pendingBugs);
     // eslint-disable-next-line
   }, [bugs]);
 
@@ -84,7 +97,11 @@ const MyBugs = () => {
           ))}
         {displayBug.isDisplayed && (
           <BugView
-            bug={bugs.filter((bug) => bug.name === displayBug.name)[0]}
+            bug={
+              bugs.filter(
+                (bug: { name: string }) => bug.name === displayBug.name
+              )[0]
+            }
             clicked={handleName}
           />
         )}

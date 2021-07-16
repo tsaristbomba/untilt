@@ -10,7 +10,7 @@ import BugCard from "../Components/bugCard";
 import { useAppDispatch, useAppSelector } from "../../Controllers/utils/hooks";
 
 // Types
-type FormTypes = {
+type ViewBugsFormTypes = {
   name: string;
   isDisplayed: boolean;
 };
@@ -27,7 +27,7 @@ type BugTypes = {
 };
 
 const Bugs = (): JSX.Element => {
-  const [displayBug, setDisplayBug] = useState<FormTypes>({
+  const [displayBug, setDisplayBug] = useState<ViewBugsFormTypes>({
     name: "",
     isDisplayed: false,
   });

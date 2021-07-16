@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { BsToggleOff } from "@react-icons/all-files/bs/BsToggleOff";
 import { BsToggleOn } from "@react-icons/all-files/bs/BsToggleOn";
 import { filter } from "../../Controllers/Redux/bugSlice";
@@ -7,42 +6,59 @@ import BugView from "../Components/Bug view/bugView";
 import PriorityController from "../../Controllers/priorityController";
 import BugCard from "../Components/bugCard";
 import LoadingSpinner from "../Components/loading";
+import { useAppDispatch, useAppSelector } from "../../Controllers/utils/hooks";
 
-const SelectedBugs = (props) => {
-  const [displayBug, setDisplayBug] = useState({
+// Types
+type SelectedBugsTypes = {
+  priority: number;
+};
+type SelectedBugsFormTypes = {
+  name: string;
+  isDisplayed: boolean;
+};
+
+const SelectedBugs: React.FC<SelectedBugsTypes> = (props) => {
+  const [displayBug, setDisplayBug] = useState<SelectedBugsFormTypes>({
     name: "",
     isDisplayed: false,
   });
-  const [filteredArray, setFilteredArray] = useState(null);
-  const [isLoading, setLoading] = useState(false);
+  const [filteredArray, setFilteredArray] = useState<any[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
-  const { bugs, loading, isFiltered } = useSelector((state) => state.bugs);
+  const dispatch = useAppDispatch();
+  const { bugs, loading, isFiltered } = useAppSelector((state) => state.bugs);
 
-  const handleName = (name) => {
+  const handleName = (
+    name: string,
+    isDisplayed: boolean = !displayBug.isDisplayed
+  ) => {
     setDisplayBug({
-      isDisplayed: !displayBug.isDisplayed,
+      isDisplayed: isDisplayed,
       name: name,
     });
   };
 
   const { level } = PriorityController(props.priority);
 
-  const selected =
-    bugs !== null ? bugs.filter((b) => b.priority === props.priority) : null;
+  const selected = bugs.filter(
+    (b: { priority: number }) => b.priority === props.priority
+  );
 
   const handleFilterBugs = () => {
-    const pendingBugs = selected.filter((b) => b.status === "pending");
+    const pendingBugs = selected.filter(
+      (b: { status: string }) => b.status === "pending"
+    );
 
-    selected !== null && setFilteredArray(pendingBugs);
+    setFilteredArray(pendingBugs);
     dispatch(filter());
   };
 
   useEffect(() => {
-    const pendingBugs =
-      bugs !== null && selected.filter((b) => b.status === "pending");
+    const pendingBugs = selected.filter(
+      (b: { status: string }) => b.status === "pending"
+    );
 
-    bugs !== null && setFilteredArray(pendingBugs);
+    setFilteredArray(pendingBugs);
     // eslint-disable-next-line
   }, [bugs]);
 
@@ -76,12 +92,11 @@ const SelectedBugs = (props) => {
       </div>
       <div className="flex flex-wrap gap-4 justify-center col-span-2">
         {!isFiltered &&
-          bugs !== null &&
-          selected !== false &&
+          selected !== null &&
           selected.map((bug, key) => (
             <BugCard key={key} {...bug} clicked={handleName} />
           ))}
-        {selected === false && <p>No {level} priority bugs found.</p>}
+        {selected.length === 0 && <p>No {level} priority bugs found.</p>}
         {isFiltered &&
           filteredArray !== null &&
           filteredArray.map((bug, key) => (
@@ -89,7 +104,11 @@ const SelectedBugs = (props) => {
           ))}
         {displayBug.isDisplayed && (
           <BugView
-            bug={bugs.filter((bug) => bug.name === displayBug.name)[0]}
+            bug={
+              bugs.filter(
+                (bug: { name: string }) => bug.name === displayBug.name
+              )[0]
+            }
             clicked={handleName}
           />
         )}

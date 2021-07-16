@@ -30,7 +30,7 @@ export const signIn = createAsyncThunk("auth/logUser", async (body: object) => {
 
 export const signUp = createAsyncThunk(
   "auth/signUp",
-  async (body): Promise<object> => {
+  async (body: object): Promise<object> => {
     const config = {
       headers: {
         "Content-type": "application/json",

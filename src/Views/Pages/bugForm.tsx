@@ -23,9 +23,9 @@ type BugObjectTypes = {
 };
 type BugFormTypes = {
   title: string;
-  edit: boolean;
-  close: () => void;
-  bug: BugObjectTypes;
+  edit?: boolean;
+  close?: () => void;
+  bug?: BugObjectTypes;
 };
 
 const BugForm: React.FC<BugFormTypes> = (props): JSX.Element => {
@@ -40,7 +40,7 @@ const BugForm: React.FC<BugFormTypes> = (props): JSX.Element => {
     time: props.bug !== undefined ? props.bug.time : "",
     id: props.bug !== undefined ? props.bug.id : "",
   });
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   let history = useHistory();
 
