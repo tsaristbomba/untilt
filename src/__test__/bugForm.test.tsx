@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import SignUp from "../Views/Pages/createAccount";
+import BugForm from "../Views/Pages/bugForm";
 import { Provider } from "react-redux";
 import {
   configureStore,
@@ -32,19 +32,19 @@ const store = configureStore({
   middleware: customizedMiddleware,
 });
 
-describe("CREATE ACCOUNT", () => {
-  it("submit button exists", () => {
+describe("CREATE BUG", () => {
+  it("Has Create Bug button", () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
-          <SignUp />
+          <BugForm title="Create Bug" />
         </MemoryRouter>
       </Provider>
     );
 
-    const btnElement = screen.getByText(/Login/i);
+    const btnElement = screen.getByTestId("create-bug-btn");
 
-    expect(btnElement).toBeInTheDocument();
+    expect(btnElement).toHaveTextContent("Create Bug");
   });
 
   //No tooltip

@@ -193,6 +193,7 @@ const BugForm: React.FC<BugFormTypes> = (props): JSX.Element => {
           <button
             className="px-6 py-2 mx-auto rounded font-medium inline-block text-white shadow-lg hover:bg-gray-600 bg-gray-700 focus:bg-gray-200 hover:shadow-2xl ring-black ring-opacity-5 transition ease-in-out"
             type="submit"
+            data-testid="create-bug-btn"
           >
             {props.title}
           </button>
