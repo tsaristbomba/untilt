@@ -47,6 +47,9 @@ const slice = createSlice({
       state.loading = false;
       state.user = null;
     },
+    clearAuthAlert: (state) => {
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -93,4 +96,4 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-export const { signOut } = slice.actions;
+export const { signOut, clearAuthAlert } = slice.actions;

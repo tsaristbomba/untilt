@@ -121,6 +121,7 @@ const SignUp: React.FC = () => {
             <button
               className={`hover:bg-gray-600 px-6 py-2 rounded font-medium inline-block text-white shadow-lg bg-gray-700 focus:bg-gray-200 ring-black ring-opacity-5 transition ease-in-out disabled:opacity-40`}
               type="submit"
+              data-testid="submit-btn"
             >
               Submit
             </button>
