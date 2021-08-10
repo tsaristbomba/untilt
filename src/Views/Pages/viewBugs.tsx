@@ -50,13 +50,13 @@ const Bugs: React.FC = (): JSX.Element => {
       <div className="flex flex-wrap gap-4 justify-center col-span-2">
         {!isFiltered &&
           bugs !== null &&
-          bugs.map((bug, key) => (
+          bugs.map((bug: any, key: number) => (
             <BugCard key={key} {...bug} clicked={handleName} />
           ))}
         {bugs === null && filteredArray.length === 0 && <p>No bugs found.</p>}
         {isFiltered &&
           filteredArray !== null &&
-          filteredArray.map((bug, key) => (
+          filteredArray.map((bug: any, key: number) => (
             <BugCard key={key} {...bug} clicked={handleName} />
           ))}
         {bugs !== null && displayBug.isDisplayed && (

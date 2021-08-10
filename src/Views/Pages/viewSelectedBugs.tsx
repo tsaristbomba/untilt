@@ -105,7 +105,7 @@ const SelectedBugs: React.FC<SelectedBugsTypes> = (props) => {
       <div className="flex flex-wrap gap-4 justify-center col-span-2">
         {!isFiltered &&
           selected !== null &&
-          selected.map((bug, key) => (
+          selected.map((bug: any, key: number) => (
             <BugCard key={key} {...bug} clicked={handleName} />
           ))}
         {selected.length === 0 && <p>No {level} priority bugs found.</p>}

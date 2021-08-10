@@ -49,12 +49,12 @@ const MyBugs: React.FC = () => {
         {!isFiltered &&
           myBugs !== null &&
           myBugs !== undefined &&
-          myBugs.map((bug, key) => (
+          myBugs.map((bug: any, key: number) => (
             <BugCard key={key} {...bug} clicked={handleName} />
           ))}
         {myBugs.length === 0 && <p>No bugs found.</p>}
         {isFiltered &&
-          filteredArray.map((bug, key) => (
+          filteredArray.map((bug: any, key: number) => (
             <BugCard key={key} {...bug} clicked={handleName} />
           ))}
         {displayBug.isDisplayed && (

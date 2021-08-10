@@ -174,7 +174,7 @@ const BugForm: React.FC<BugFormTypes> = (props): JSX.Element => {
           <option value="" disabled defaultValue="">
             Select
           </option>
-          {users.data.map((u: { name: string }, key) => (
+          {users.data.map((u: { name: string }, key: number) => (
             <option key={key} value={u.name}>
               {u.name}
             </option>
