@@ -8,6 +8,8 @@ type StateTypes = {
   error: string | null;
   success: string | null;
   isFiltered: boolean;
+  myBugs: object;
+  filteredArray: object;
 };
 
 const slice = createSlice({
@@ -18,6 +20,8 @@ const slice = createSlice({
     error: null,
     success: null,
     isFiltered: false,
+    myBugs: [],
+    filteredArray: [],
   },
   reducers: {
     clearBugs: (state: StateTypes) => {
@@ -31,6 +35,12 @@ const slice = createSlice({
     },
     filter: (state: StateTypes) => {
       state.isFiltered = !state.isFiltered;
+    },
+    setMyBugs: (state: StateTypes, action: PayloadAction<object>) => {
+      state.myBugs = action.payload;
+    },
+    setFilteredArray: (state: StateTypes, action: PayloadAction<object>) => {
+      state.filteredArray = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -105,4 +115,5 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-export const { clearBugs, filter, clearBugsMsg } = slice.actions;
+export const { clearBugs, filter, clearBugsMsg, setMyBugs, setFilteredArray } =
+  slice.actions;
