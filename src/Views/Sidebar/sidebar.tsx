@@ -114,6 +114,7 @@ const Sidebar: React.FC = (): JSX.Element => {
                   <span
                     className="font-bold ml-2 text-white text-xs rounded-full bg-gray-700 flex items-center justify-center font-mono"
                     style={{ height: "20px", width: "20px" }}
+                    data-testid="my-bugs-qty"
                   >
                     {myBugs}
                   </span>
