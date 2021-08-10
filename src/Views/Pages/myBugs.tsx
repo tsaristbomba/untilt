@@ -47,8 +47,8 @@ const MyBugs: React.FC = () => {
       <Filter />
       <div className="flex flex-wrap gap-4 justify-center col-span-2">
         {!isFiltered &&
-          bugs !== null &&
-          bugs !== undefined &&
+          myBugs !== null &&
+          myBugs !== undefined &&
           myBugs.map((bug, key) => (
             <BugCard key={key} {...bug} clicked={handleName} />
           ))}
