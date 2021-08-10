@@ -26,6 +26,8 @@ const slice = createSlice({
   reducers: {
     clearBugs: (state: StateTypes) => {
       state.bugs = [];
+      state.myBugs = [];
+      state.filteredArray = [];
       state.loading = false;
       state.error = null;
     },
