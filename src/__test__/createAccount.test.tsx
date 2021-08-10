@@ -33,7 +33,7 @@ const store = configureStore({
 });
 
 describe("CREATE ACCOUNT", () => {
-  it("submit button exists", () => {
+  it("submit and login buttons exists", () => {
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -42,9 +42,11 @@ describe("CREATE ACCOUNT", () => {
       </Provider>
     );
 
-    const btnElement = screen.getByText(/Login/i);
+    const linkElement = screen.getByText(/Login/i);
+    const submitElement = screen.getByText(/Submit/i);
 
-    expect(btnElement).toBeInTheDocument();
+    expect(linkElement).toBeInTheDocument();
+    expect(submitElement).toBeInTheDocument();
   });
 
   //No tooltip
