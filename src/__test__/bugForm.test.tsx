@@ -46,19 +46,4 @@ describe("CREATE BUG", () => {
 
     expect(btnElement).toHaveTextContent("Create Bug");
   });
-
-  //No tooltip
-  // it("request email and password for submit", async () => {
-  //   const { findByTestId } = render(
-  //     <Provider store={store}>
-  //       <MemoryRouter>
-  //         <SignUp />
-  //       </MemoryRouter>
-  //     </Provider>
-  //   );
-
-  //   const btnElement = await findByTestId("submit-btn");
-
-  //   await waitFor(() => fireEvent.click(btnElement));
-  //});
 });
