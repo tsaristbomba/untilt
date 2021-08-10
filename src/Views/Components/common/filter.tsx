@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   useAppDispatch,
   useAppSelector,
@@ -10,10 +10,25 @@ import {
   setFilteredArray,
   setMyBugs,
 } from "../../../Controllers/Redux/bugSlice";
+import { loadBugs } from "../../../Controllers/bugController";
 
-const Filter = () => {
-  const [allBugsCount, setCount] = useState<number>(0);
+// Types
+interface BugTypes {
+  name: string;
+  details: string;
+  steps: string;
+  priority: number;
+  assigned: string;
+  version: string;
+  date?: string;
+  _id?: string;
+  status: string;
+}
+interface FilterTypes {
+  all?: boolean;
+}
 
+const Filter = ({ all }: FilterTypes) => {
   const { bugs, isFiltered, myBugs, filteredArray } = useAppSelector(
     (state) => state.bugs
   );
@@ -21,14 +36,27 @@ const Filter = () => {
 
   const dispatch = useAppDispatch();
 
-  const handleFilterBugs = () => {
+  const handleFilterMyBugs = () => {
     const pendingBugs = myBugs.filter(
       (b: { status: string }) => b.status === "pending"
     );
 
-    setFilteredArray(pendingBugs);
+    dispatch(setFilteredArray(pendingBugs));
     dispatch(filter());
   };
+
+  const handleFilterBugs = () => {
+    const pendingBugs = bugs.filter((b: BugTypes) => b.status === "pending");
+
+    bugs !== null && dispatch(setFilteredArray(pendingBugs));
+    dispatch(filter());
+  };
+
+  useEffect(() => {
+    dispatch(loadBugs());
+
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     dispatch(
@@ -36,20 +64,20 @@ const Filter = () => {
         bugs.filter((b: { assigned: string }) => b.assigned === auth.user)
       )
     );
-    // eslint-disable-next-line
-  }, []);
 
-  useEffect(() => {
-    setCount(filteredArray.length);
-    // eslint-disable-next-line
-  }, []);
+    let pendingBugs;
 
-  useEffect(() => {
-    const pendingBugs = myBugs.filter(
-      (b: { status: string }) => b.status === "pending"
-    );
+    if (all) {
+      pendingBugs = bugs.filter(
+        (b: { status: string }) => b.status === "pending"
+      );
+    } else {
+      pendingBugs = myBugs.filter(
+        (b: { status: string }) => b.status === "pending"
+      );
+    }
 
-    setFilteredArray(pendingBugs);
+    dispatch(setFilteredArray(pendingBugs));
     // eslint-disable-next-line
   }, [bugs]);
 
@@ -60,13 +88,13 @@ const Filter = () => {
         className="font-bold text-white text-xs rounded-full bg-gray-700 flex items-center justify-center font-mono mr-1 ml-1"
         style={{ height: "20px", width: "20px" }}
       >
-        {allBugsCount}
+        {filteredArray.length}
       </span>
       :{" "}
       <button
         className="flex flex-row px-2 py-1 rounded ring-black ring-opacity-5 transition ease-in-out disabled:opacity-20"
-        onClick={handleFilterBugs}
-        disabled={myBugs.length === 0}
+        onClick={all ? handleFilterBugs : handleFilterMyBugs}
+        disabled={all ? bugs.length === 0 : myBugs.length === 0}
       >
         {!isFiltered ? (
           <BsToggleOff className="text-gray-700 text-2xl" />
