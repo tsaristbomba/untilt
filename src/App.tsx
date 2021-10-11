@@ -2,28 +2,29 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // Utils
-import { useAppDispatch, useAppSelector } from "./Controllers/utils/hooks";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
 
 // Components
-import Login from "./Views/Components/login";
-import Sidebar from "./Views/Sidebar/sidebar";
-import ViewBugPage from "./Views/Pages/viewBugs";
-import BugForm from "./Views/Pages/bugForm";
-import Dashboard from "./Views/Pages/dashboard";
-import SelectedBugs from "./Views/Pages/viewSelectedBugs";
-import setAuthToken from "./Controllers/utils/setAuthToken";
-import { loadUser } from "./Controllers/userController";
-import { loadBugs } from "./Controllers/bugController";
-import MyBugs from "./Views/Pages/myBugs";
-import Alert from "./Views/Components/alert";
-import createAccount from "./Views/Pages/createAccount";
-import { generateAlert } from "./Controllers/Redux/alertSlice";
+import Login from "./components/login";
+import Sidebar from "./components/sidebar";
+import setAuthToken from "./redux/utils/setAuthToken";
+import { loadUser } from "./redux/user/userThunk";
+import { loadBugs } from "./redux/bug/bugThunk";
+import Alert from "./components/alert";
+import { generateAlert } from "./redux/alert/alertSlice";
+
+import ViewBugPage from "./pages/view-bugs";
+import BugForm from "./pages/bug-form";
+import Dashboard from "./pages/dashboard";
+import SelectedBugs from "./pages/view-selected-bugs";
+import MyBugs from "./pages/my-bugs";
+import createAccount from "./pages/create-account";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
-function App(): JSX.Element {
+function App() {
   const { auth } = useAppSelector((state) => state);
   const { bugs } = useAppSelector((state) => state);
 

@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { renderWithRedux } from "../Controllers/Redux/store";
-import Sidebar from "../Views/Sidebar/sidebar";
+import { renderWithRedux } from "../redux/store";
+import Sidebar from "../components/sidebar";
 
 describe("SIDEBAR", () => {
   it("My bugs qty starts with 0", () => {

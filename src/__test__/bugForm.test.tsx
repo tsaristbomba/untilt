@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { renderWithRedux } from "../Controllers/Redux/store";
-import BugForm from "../Views/Pages/bugForm";
+import { renderWithRedux } from "../redux/store";
+import BugForm from "../pages/bug-form";
 
 describe("CREATE BUG", () => {
   it("Has Create Bug button", () => {

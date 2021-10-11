@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/react";
-import SignUp from "../Views/Pages/createAccount";
+import SignUp from "../pages/create-account";
 import { MemoryRouter } from "react-router-dom";
-import { renderWithRedux } from "../Controllers/Redux/store";
+import { renderWithRedux } from "../redux/store";
 
 describe("CREATE ACCOUNT", () => {
   it("submit and login buttons exists", () => {
